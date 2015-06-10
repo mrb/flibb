@@ -1,0 +1,9 @@
+DEPENDENCIES
+  apt
+  derp
+    path: .
+    metadata: true
+
+GRAPH
+  apt (2.7.0)
+  derp (0.0.1)
