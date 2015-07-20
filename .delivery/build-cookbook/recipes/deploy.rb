@@ -32,9 +32,9 @@ ruby_block "update the #{env_name} environment" do
       begin
         env = Chef::Environment.load(env_name)
       rescue Net::HTTPServerException => http_e
-        raise http_e unless http_e.response.code == '404'
+        raise http_e unless http_e.response.code == "404"
         Chef::Log.info("Creating Environment #{env_name}")
-        env = Chef::Environment.new
+        env = Chef::Environment.new()
         env.name(env_name)
         env.create
       end
@@ -51,7 +51,7 @@ end
 unless search_terms.empty?
   search_query = "(#{search_terms.join(' OR ')}) " \
                  "AND chef_environment:#{delivery_environment} " \
-                 'AND recipes:push-jobs*'
+                 "AND recipes:push-jobs*"
 
   my_nodes = delivery_chef_server_search(:node, search_query)
 

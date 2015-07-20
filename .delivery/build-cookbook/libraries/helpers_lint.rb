@@ -26,22 +26,25 @@ module DeliveryTruck
       # @param node [Chef::Node] Chef Node object
       # @return [String]
       def foodcritic_tags(node)
-        config = node['delivery']['config']['delivery-truck']['lint']['foodcritic']
-        case
-        when config['only_rules'] && !config['only_rules'].empty?
-          '-t ' + config['only_rules'].join(' -t ')
-        when config['ignore_rules'] && !config['ignore_rules'].empty?
-          '-t ~' + config['ignore_rules'].join(' -t ~')
-        else
-          ''
+        begin
+          config = node['delivery']['config']['delivery-truck']['lint']['foodcritic']
+          case
+          when config['only_rules'] && !config['only_rules'].empty?
+            "-t " + config['only_rules'].join(" -t ")
+          when config['ignore_rules'] && !config['ignore_rules'].empty?
+            "-t ~" + config['ignore_rules'].join(" -t ~")
+          else
+            ""
+          end
+        rescue
+          ""
         end
-      rescue
-        ''
       end
     end
   end
 
   module DSL
+
     # Return the applicable tags for foodcritic runs
     def foodcritic_tags
       DeliveryTruck::Helpers::Lint.foodcritic_tags(node)

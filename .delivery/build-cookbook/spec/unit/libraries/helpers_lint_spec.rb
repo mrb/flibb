@@ -10,7 +10,7 @@ describe DeliveryTruck::Helpers::Lint do
       end
 
       it 'returns an empty string' do
-        expect(described_class.foodcritic_tags(node)).to eql ''
+        expect(described_class.foodcritic_tags(node)).to eql ""
       end
     end
 
@@ -20,7 +20,7 @@ describe DeliveryTruck::Helpers::Lint do
       end
 
       it 'returns an empty string' do
-        expect(described_class.foodcritic_tags(node)).to eql ''
+        expect(described_class.foodcritic_tags(node)).to eql ""
       end
     end
 
@@ -31,7 +31,7 @@ describe DeliveryTruck::Helpers::Lint do
         end
 
         it 'returns an empty string' do
-          expect(described_class.foodcritic_tags(node)).to eql ''
+          expect(described_class.foodcritic_tags(node)).to eql ""
         end
       end
 
@@ -41,17 +41,17 @@ describe DeliveryTruck::Helpers::Lint do
         end
 
         it 'returns a string with the one rule' do
-          expect(described_class.foodcritic_tags(node)).to eql '-t FC001'
+          expect(described_class.foodcritic_tags(node)).to eql "-t FC001"
         end
       end
 
       context 'with multiple rules' do
         before do
-          node.default['delivery']['config']['delivery-truck']['lint']['foodcritic']['only_rules'] = %w(FC001 FC002)
+          node.default['delivery']['config']['delivery-truck']['lint']['foodcritic']['only_rules'] = ['FC001', 'FC002']
         end
 
         it 'returns a string with multiple rules' do
-          expect(described_class.foodcritic_tags(node)).to eql '-t FC001 -t FC002'
+          expect(described_class.foodcritic_tags(node)).to eql "-t FC001 -t FC002"
         end
       end
     end
@@ -63,7 +63,7 @@ describe DeliveryTruck::Helpers::Lint do
         end
 
         it 'returns an empty string' do
-          expect(described_class.foodcritic_tags(node)).to eql ''
+          expect(described_class.foodcritic_tags(node)).to eql ""
         end
       end
 
@@ -73,17 +73,17 @@ describe DeliveryTruck::Helpers::Lint do
         end
 
         it 'returns a string with the one rule' do
-          expect(described_class.foodcritic_tags(node)).to eql '-t ~FC001'
+          expect(described_class.foodcritic_tags(node)).to eql "-t ~FC001"
         end
       end
 
       context 'with multiple rules' do
         before do
-          node.default['delivery']['config']['delivery-truck']['lint']['foodcritic']['ignore_rules'] = %w(FC001 FC002)
+          node.default['delivery']['config']['delivery-truck']['lint']['foodcritic']['ignore_rules'] = ['FC001', 'FC002']
         end
 
         it 'returns a string with multiple rules' do
-          expect(described_class.foodcritic_tags(node)).to eql '-t ~FC001 -t ~FC002'
+          expect(described_class.foodcritic_tags(node)).to eql "-t ~FC001 -t ~FC002"
         end
       end
     end
@@ -95,7 +95,7 @@ describe DeliveryTruck::Helpers::Lint do
       end
 
       it 'only `only_rules` values are honored' do
-        expect(described_class.foodcritic_tags(node)). to eql '-t FC001'
+        expect(described_class.foodcritic_tags(node)). to eql "-t FC001"
       end
     end
   end

@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe DeliveryTruck::Helpers::Syntax do
+
   describe '.bumped_version?' do
     let(:node) do
       nodee = Chef::Node.new

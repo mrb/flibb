@@ -24,16 +24,17 @@ module DeliveryTruck
       #
       # @param cookbook_path [String] Path to cookbook
       # @return [TrueClass, FalseClass]
-      def kitchen_tests?(cookbook_path)
+      def has_kitchen_tests?(cookbook_path)
         File.exist?(File.join(cookbook_path, '.kitchen.docker.yml'))
       end
     end
   end
 
   module DSL
+
     # Can we find Test Kitchen files?
-    def kitchen_tests?(cookbook_path)
-      DeliveryTruck::Helpers::Functional.kitchen_tests?(cookbook_path)
+    def has_kitchen_tests?(cookbook_path)
+      DeliveryTruck::Helpers::Functional.has_kitchen_tests?(cookbook_path)
     end
   end
 end

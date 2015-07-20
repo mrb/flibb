@@ -24,4 +24,3 @@ vendor/
 .delivery/live.json
 .delivery/sandbox.json
 Berksfile.lock
-Gemfile.lock

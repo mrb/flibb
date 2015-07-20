@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'delivery-truck::publish' do
+describe "delivery-truck::publish" do
   let(:chef_run) do
     ChefSpec::SoloRunner.new do |node|
       node.set['delivery']['workspace']['root'] = '/tmp'
@@ -43,8 +43,8 @@ describe 'delivery-truck::publish' do
     end
 
     it 'deletes and recreates cookbook staging directory' do
-      expect(chef_run).to delete_directory('/tmp/cache/cookbook-upload').with(recursive: true)
-      expect(chef_run).to create_directory('/tmp/cache/cookbook-upload')
+      expect(chef_run).to delete_directory("/tmp/cache/cookbook-upload").with(recursive: true)
+      expect(chef_run).to create_directory("/tmp/cache/cookbook-upload")
     end
   end
 
@@ -59,9 +59,9 @@ describe 'delivery-truck::publish' do
       expect(chef_run).not_to create_link('/tmp/cache/cookbook-share/gordon')
       expect(chef_run).not_to create_link('/tmp/cache/cookbook-share/emeril')
 
-      expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_julia')
-      expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_gordon')
-      expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_emeril')
+      expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_julia")
+      expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_gordon")
+      expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_emeril")
     end
   end
 
@@ -77,8 +77,8 @@ describe 'delivery-truck::publish' do
       end
 
       it 'deletes and recreates cookbook-to-share directory' do
-        expect(chef_run).to delete_directory('/tmp/cache/cookbook-share').with(recursive: true)
-        expect(chef_run).to create_directory('/tmp/cache/cookbook-share')
+        expect(chef_run).to delete_directory("/tmp/cache/cookbook-share").with(recursive: true)
+        expect(chef_run).to create_directory("/tmp/cache/cookbook-share")
       end
     end
 
@@ -93,9 +93,9 @@ describe 'delivery-truck::publish' do
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-share/gordon')
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-share/emeril')
 
-        expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_julia')
-        expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_gordon')
-        expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_emeril')
+        expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_julia")
+        expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_gordon")
+        expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_emeril")
       end
     end
 
@@ -110,17 +110,17 @@ describe 'delivery-truck::publish' do
 
       it 'shares only that cookbook' do
         expect(chef_run).to create_link('/tmp/cache/cookbook-share/julia')
-          .with(to: '/tmp/repo/cookbooks/julia')
+                             .with(to: '/tmp/repo/cookbooks/julia')
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-share/gordon')
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-share/emeril')
 
-        expect(chef_run).to run_execute('share_cookbook_to_supermarket_julia')
-          .with(command: 'knife supermarket share julia ' \
+        expect(chef_run).to run_execute("share_cookbook_to_supermarket_julia")
+                             .with(command: 'knife supermarket share julia ' \
                                             '--config /var/opt/delivery/workspace/.chef/knife.rb ' \
                                             '--supermarket-site https://supermarket.chef.io ' \
                                             '--cookbook-path /tmp/cache/cookbook-share')
-        expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_gordon')
-        expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_emeril')
+        expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_gordon")
+        expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_emeril")
       end
 
       context 'but it already exists on Supermarket' do
@@ -132,8 +132,8 @@ describe 'delivery-truck::publish' do
         end
 
         it 'do not share that cookbook' do
-          expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_julia')
-            .with(command: 'knife supermarket share julia ' \
+          expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_julia")
+                                  .with(command: 'knife supermarket share julia ' \
                                                  '--config /var/opt/delivery/workspace/.chef/knife.rb ' \
                                                  '--supermarket-site https://supermarket.chef.io ' \
                                                  '--cookbook-path /tmp/cache/cookbook-share')
@@ -155,22 +155,22 @@ describe 'delivery-truck::publish' do
 
       it 'shares only those cookbook' do
         expect(chef_run).to create_link('/tmp/cache/cookbook-share/julia')
-          .with(to: '/tmp/repo/cookbooks/julia')
+                             .with(to: '/tmp/repo/cookbooks/julia')
         expect(chef_run).to create_link('/tmp/cache/cookbook-share/gordon')
-          .with(to: '/tmp/repo/cookbooks/gordon')
+                             .with(to: '/tmp/repo/cookbooks/gordon')
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-share/emeril')
 
-        expect(chef_run).to run_execute('share_cookbook_to_supermarket_julia')
-          .with(command: 'knife supermarket share julia ' \
+        expect(chef_run).to run_execute("share_cookbook_to_supermarket_julia")
+                             .with(command: 'knife supermarket share julia ' \
                                             '--config /var/opt/delivery/workspace/.chef/knife.rb ' \
                                             '--supermarket-site https://supermarket.chef.io ' \
                                             '--cookbook-path /tmp/cache/cookbook-share')
-        expect(chef_run).to run_execute('share_cookbook_to_supermarket_gordon')
-          .with(command: 'knife supermarket share gordon ' \
+        expect(chef_run).to run_execute("share_cookbook_to_supermarket_gordon")
+                             .with(command: 'knife supermarket share gordon ' \
                                             '--config /var/opt/delivery/workspace/.chef/knife.rb ' \
                                             '--supermarket-site https://supermarket.chef.io ' \
                                             '--cookbook-path /tmp/cache/cookbook-share')
-        expect(chef_run).not_to run_execute('share_cookbook_to_supermarket_emeril')
+        expect(chef_run).not_to run_execute("share_cookbook_to_supermarket_emeril")
       end
     end
   end
@@ -186,9 +186,9 @@ describe 'delivery-truck::publish' do
       expect(chef_run).not_to create_link('/tmp/cache/cookbook-upload/gordon')
       expect(chef_run).not_to create_link('/tmp/cache/cookbook-upload/emeril')
 
-      expect(chef_run).not_to run_execute('upload_cookbook_julia')
-      expect(chef_run).not_to run_execute('upload_cookbook_gordon')
-      expect(chef_run).not_to run_execute('upload_cookbook_emeril')
+      expect(chef_run).not_to run_execute("upload_cookbook_julia")
+      expect(chef_run).not_to run_execute("upload_cookbook_gordon")
+      expect(chef_run).not_to run_execute("upload_cookbook_emeril")
     end
   end
 
@@ -209,9 +209,9 @@ describe 'delivery-truck::publish' do
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-upload/gordon')
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-upload/emeril')
 
-        expect(chef_run).not_to run_execute('upload_cookbook_julia')
-        expect(chef_run).not_to run_execute('upload_cookbook_gordon')
-        expect(chef_run).not_to run_execute('upload_cookbook_emeril')
+        expect(chef_run).not_to run_execute("upload_cookbook_julia")
+        expect(chef_run).not_to run_execute("upload_cookbook_gordon")
+        expect(chef_run).not_to run_execute("upload_cookbook_emeril")
       end
     end
 
@@ -223,17 +223,17 @@ describe 'delivery-truck::publish' do
 
       it 'uploads only that cookbook' do
         expect(chef_run).to create_link('/tmp/cache/cookbook-upload/julia')
-          .with(to: '/tmp/repo/cookbooks/julia')
+                             .with(to: '/tmp/repo/cookbooks/julia')
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-upload/gordon')
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-upload/emeril')
 
-        expect(chef_run).to run_execute('upload_cookbook_julia')
-          .with(command: 'knife cookbook upload julia ' \
+        expect(chef_run).to run_execute("upload_cookbook_julia")
+                             .with(command: 'knife cookbook upload julia ' \
                                             '--freeze --all --force ' \
                                             '--config /var/opt/delivery/workspace/.chef/knife.rb ' \
                                             '--cookbook-path /tmp/cache/cookbook-upload')
-        expect(chef_run).not_to run_execute('upload_cookbook_gordon')
-        expect(chef_run).not_to run_execute('upload_cookbook_emeril')
+        expect(chef_run).not_to run_execute("upload_cookbook_gordon")
+        expect(chef_run).not_to run_execute("upload_cookbook_emeril")
       end
     end
 
@@ -245,22 +245,22 @@ describe 'delivery-truck::publish' do
 
       it 'uploads only those cookbook' do
         expect(chef_run).to create_link('/tmp/cache/cookbook-upload/julia')
-          .with(to: '/tmp/repo/cookbooks/julia')
+                             .with(to: '/tmp/repo/cookbooks/julia')
         expect(chef_run).to create_link('/tmp/cache/cookbook-upload/gordon')
-          .with(to: '/tmp/repo/cookbooks/gordon')
+                             .with(to: '/tmp/repo/cookbooks/gordon')
         expect(chef_run).not_to create_link('/tmp/cache/cookbook-upload/emeril')
 
-        expect(chef_run).to run_execute('upload_cookbook_julia')
-          .with(command: 'knife cookbook upload julia ' \
+        expect(chef_run).to run_execute("upload_cookbook_julia")
+                             .with(command: 'knife cookbook upload julia ' \
                                             '--freeze --all --force ' \
                                             '--config /var/opt/delivery/workspace/.chef/knife.rb ' \
                                             '--cookbook-path /tmp/cache/cookbook-upload')
-        expect(chef_run).to run_execute('upload_cookbook_gordon')
-          .with(command: 'knife cookbook upload gordon ' \
+        expect(chef_run).to run_execute("upload_cookbook_gordon")
+                             .with(command: 'knife cookbook upload gordon ' \
                                             '--freeze --all --force ' \
                                             '--config /var/opt/delivery/workspace/.chef/knife.rb ' \
                                             '--cookbook-path /tmp/cache/cookbook-upload')
-        expect(chef_run).not_to run_execute('upload_cookbook_emeril')
+        expect(chef_run).not_to run_execute("upload_cookbook_emeril")
       end
     end
 
@@ -273,12 +273,13 @@ describe 'delivery-truck::publish' do
       end
 
       it 'vendors all dependencies with Berkshelf' do
-        expect(chef_run).to run_execute('berks_vendor_cookbook_julia')
-          .with(command: 'berks vendor /tmp/cache/cookbook-upload')
-          .with(cwd: '/tmp/repo/cookbooks/julia')
 
-        expect(chef_run).to run_execute('upload_cookbook_julia')
-          .with(command: 'knife cookbook upload julia ' \
+        expect(chef_run).to run_execute("berks_vendor_cookbook_julia")
+                             .with(command: 'berks vendor /tmp/cache/cookbook-upload')
+                             .with(cwd: '/tmp/repo/cookbooks/julia')
+
+        expect(chef_run).to run_execute("upload_cookbook_julia")
+                             .with(command: 'knife cookbook upload julia ' \
                                             '--freeze --all --force ' \
                                             '--config /var/opt/delivery/workspace/.chef/knife.rb ' \
                                             '--cookbook-path /tmp/cache/cookbook-upload')
@@ -289,33 +290,65 @@ describe 'delivery-truck::publish' do
   context 'when they do not wish to push to github' do
     before do
       allow(DeliveryTruck::Helpers::Publish).to receive(:push_repo_to_github?).and_return(false)
-      stub_command('git remote --verbose | grep ^github').and_return(false)
+      stub_command("git remote --verbose | grep ^github").and_return(false)
       chef_run.converge(described_recipe)
     end
 
     it 'does not push to github' do
-      expect(chef_run).not_to run_execute('push_to_github')
+      expect(chef_run).not_to run_execute("push_to_github")
     end
   end
 
   context 'when they wish to push to github' do
-    let(:secrets) { { 'github' => 'SECRET' } }
+    let(:secrets) {{'github' => 'SECRET'}}
 
     before do
       allow_any_instance_of(Chef::Recipe).to receive(:get_project_secrets).and_return(secrets)
-      stub_command('git remote --verbose | grep ^github').and_return(false)
+      stub_command("git remote --verbose | grep ^github").and_return(false)
       chef_run.node.set['delivery']['config']['delivery-truck']['publish']['github'] = 'spec/spec'
       chef_run.converge(described_recipe)
     end
 
     it 'pushes to github' do
       expect(chef_run).to push_delivery_github('spec/spec')
-        .with(deploy_key: 'SECRET',
-              branch: 'master',
-              remote_url: 'git@github.com:spec/spec.git',
-              repo_path: '/tmp/repo',
-              cache_path: '/tmp/cache',
-              action: :push)
+                              .with(deploy_key: 'SECRET',
+                                    branch: 'master',
+                                    remote_url: 'git@github.com:spec/spec.git',
+                                    repo_path: '/tmp/repo',
+                                    cache_path: '/tmp/cache',
+                                    action: :push)
     end
   end
+
+  context 'when they do not wish to push to git' do
+    before do
+      allow(DeliveryTruck::Helpers::Publish).to receive(:push_repo_to_git?).and_return(false)
+      chef_run.converge(described_recipe)
+    end
+
+    it 'does not push to git' do
+      expect(chef_run).not_to run_execute("push_to_git")
+    end
+  end
+
+  context 'when they wish to push to git' do
+    let(:secrets) {{'git' => 'SECRET'}}
+
+    before do
+      allow_any_instance_of(Chef::Recipe).to receive(:get_project_secrets).and_return(secrets)
+      chef_run.node.set['delivery']['config']['delivery-truck']['publish']['git'] = 'ssh://git@stash:2222/spec/spec.git'
+      chef_run.converge(described_recipe)
+    end
+
+    it 'pushes to git' do
+      expect(chef_run).to push_delivery_github('ssh://git@stash:2222/spec/spec.git')
+                              .with(deploy_key: 'SECRET',
+                                    branch: 'master',
+                                    remote_url: 'ssh://git@stash:2222/spec/spec.git',
+                                    repo_path: '/tmp/repo',
+                                    cache_path: '/tmp/cache',
+                                    action: :push)
+    end
+  end
+
 end

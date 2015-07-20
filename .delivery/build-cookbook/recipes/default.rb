@@ -27,9 +27,9 @@ end
 
 # Temporary workaround until chefdk installs chef-sugar.
 chef_gem 'chef-sugar' do
+  compile_time false
   # We always ride the latest version of chef-sugar. This could prove dangerous
   # but it more closely matches the CD philosophy which Delivery implements!
-  compile_time false
   action :upgrade
 end
 

@@ -1,14 +1,15 @@
 require 'spec_helper'
 
 describe DeliveryTruck::Helpers::Functional do
-  describe '.kitchen_tests?' do
+
+  describe '.has_kitchen_tests?' do
     context 'when .kitchen.docker.yml file is present' do
       before do
         allow(File).to receive(:exist?).with('/tmp/cookbook/.kitchen.docker.yml').and_return(true)
       end
 
       it 'returns true' do
-        expect(DeliveryTruck::Helpers::Functional.kitchen_tests?('/tmp/cookbook')).to eql true
+        expect(DeliveryTruck::Helpers::Functional.has_kitchen_tests?('/tmp/cookbook')).to eql true
       end
     end
 
@@ -18,7 +19,7 @@ describe DeliveryTruck::Helpers::Functional do
       end
 
       it 'returns false' do
-        expect(DeliveryTruck::Helpers::Functional.kitchen_tests?('/tmp/cookbook')).to eql false
+        expect(DeliveryTruck::Helpers::Functional.has_kitchen_tests?('/tmp/cookbook')).to eql false
       end
     end
   end

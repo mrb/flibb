@@ -24,16 +24,17 @@ module DeliveryTruck
       #
       # @param cookbook_path [String] Path to cookbook
       # @return [TrueClass, FalseClass]
-      def spec_tests?(cookbook_path)
+      def has_spec_tests?(cookbook_path)
         File.directory?(File.join(cookbook_path, 'spec'))
       end
     end
   end
 
   module DSL
+
     # Does cookbook have spec tests?
-    def spec_tests?(cookbook_path)
-      DeliveryTruck::Helpers::Unit.spec_tests?(cookbook_path)
+    def has_spec_tests?(cookbook_path)
+      DeliveryTruck::Helpers::Unit.has_spec_tests?(cookbook_path)
     end
   end
 end

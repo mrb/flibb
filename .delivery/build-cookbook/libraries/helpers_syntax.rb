@@ -47,10 +47,10 @@ module DeliveryTruck
           templates\/.*
         ).join('|')
 
-        if relative_dir == '.' && !!modified_files.find { |f| /^(#{files_to_check})/ =~ f }
-          !!modified_files.find { |f| /^metadata\.(rb|json)/ =~ f }
-        elsif !!modified_files.find { |f| /^#{relative_dir}\/(#{files_to_check})/ =~ f }
-          !!modified_files.find { |f| /^#{relative_dir}\/metadata\.(rb|json)/ =~ f }
+        if relative_dir == '.' && !!modified_files.find {|f| /^(#{files_to_check})/ =~ f }
+          !!modified_files.find {|f| /^metadata\.(rb|json)/ =~ f }
+        elsif !!modified_files.find {|f| /^#{relative_dir}\/(#{files_to_check})/ =~ f }
+          !!modified_files.find {|f| /^#{relative_dir}\/metadata\.(rb|json)/ =~ f }
         else
           # We return true here as an indication that we should not fail checks.
           # In reality we simply did not change any files that would require us
@@ -62,6 +62,7 @@ module DeliveryTruck
   end
 
   module DSL
+
     def bumped_version?(path)
       DeliveryTruck::Helpers::Syntax.bumped_version?(path, node)
     end

@@ -9,7 +9,7 @@ class MyFakeNode
   end
 end
 
-describe 'delivery-truck::deploy' do
+describe "delivery-truck::deploy" do
   let(:chef_run) do
     ChefSpec::SoloRunner.new do |node|
       node.set['delivery']['workspace']['root'] = '/tmp'
@@ -34,7 +34,7 @@ describe 'delivery-truck::deploy' do
   let(:search_query) do
     "(#{recipe_list}) AND chef_environment:union AND recipes:push-jobs*"
   end
-  let(:node_list) { [MyFakeNode.new('node1'), MyFakeNode.new('node2')] }
+  let(:node_list) { [MyFakeNode.new("node1"), MyFakeNode.new("node2")] }
 
   # context "when a single cookbook has been modified" do
   #   before do
@@ -54,7 +54,7 @@ describe 'delivery-truck::deploy' do
   #   end
   # end
 
-  context 'when multiple cookbooks have been modified' do
+  context "when multiple cookbooks have been modified" do
     before do
       allow_any_instance_of(Chef::Recipe).to receive(:changed_cookbooks).and_return(two_changed_cookbooks)
       allow_any_instance_of(Chef::Recipe).to receive(:get_cookbook_version).and_return('1.0.0')
@@ -62,12 +62,12 @@ describe 'delivery-truck::deploy' do
 
     let(:recipe_list) { 'recipes:julia* OR recipes:gordon*' }
 
-    it 'deploy only those cookbooks' do
+    it "deploy only those cookbooks" do
       allow_any_instance_of(Chef::Recipe).to receive(:delivery_chef_server_search).with(:node, search_query).and_return(node_list)
       expect(chef_run).to run_ruby_block('update the union environment')
-      expect(chef_run).to dispatch_delivery_push_job('deploy_Secret').with(
-                            command: 'chef-client',
-                            nodes: node_list
+      expect(chef_run).to dispatch_delivery_push_job("deploy_Secret").with(
+                            :command => 'chef-client',
+                            :nodes => node_list
                           )
     end
   end

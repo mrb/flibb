@@ -17,7 +17,7 @@
 
 # TODO: This is a temporary workaround; ultimately, this should be
 # handled either by delivery_build or (preferably) the server itself.
-ruby_block 'copy env from prior to current' do
+ruby_block "copy env from prior to current" do
   block do
     to_env_name = node['delivery']['change']['stage']
 
@@ -27,12 +27,13 @@ ruby_block 'copy env from prior to current' do
         to_env_name = delivery_environment
         from_env_name = 'union'
 
+
         begin
           from_env = Chef::Environment.load(from_env_name)
         rescue Net::HTTPServerException => http_e
-          raise http_e unless http_e.response.code == '404'
+          raise http_e unless http_e.response.code == "404"
           Chef::Log.info("Creating Environment #{from_env_name}")
-          from_env = Chef::Environment.new
+          from_env = Chef::Environment.new()
           from_env.name(from_env_name)
           from_env.create
         end
@@ -40,9 +41,9 @@ ruby_block 'copy env from prior to current' do
         begin
           to_env = Chef::Environment.load(to_env_name)
         rescue Net::HTTPServerException => http_e
-          raise http_e unless http_e.response.code == '404'
+          raise http_e unless http_e.response.code == "404"
           Chef::Log.info("Creating Environment #{to_env_name}")
-          to_env = Chef::Environment.new
+          to_env = Chef::Environment.new()
           to_env.name(to_env_name)
           to_env.create
         end
@@ -54,7 +55,7 @@ ruby_block 'copy env from prior to current' do
           node.default['delivery']['project_cookbooks'] = default_cookbooks
         end
 
-        Chef::Log.info("Checking #{to_env_name} pinnings for" \
+        Chef::Log.info("Checking #{to_env_name} pinnings for" +
                        " #{node['delivery']['project_cookbooks']}")
         node['delivery']['project_cookbooks'].each do |pin|
           if to_env.cookbook_versions[pin]
@@ -70,7 +71,7 @@ ruby_block 'copy env from prior to current' do
           node.default['delivery']['project_apps'] = default_apps
         end
 
-        Chef::Log.info("Checking #{to_env_name} apps for" \
+        Chef::Log.info("Checking #{to_env_name} apps for" +
                        " #{node['delivery']['project_apps']}")
         node['delivery']['project_apps'].each do |app|
           if to_env.override_attributes['applications'] &&
@@ -91,7 +92,7 @@ ruby_block 'copy env from prior to current' do
         end
 
         if to_env.override_attributes && !to_env.override_attributes.empty? &&
-           !to_env.override_attributes['applications'].nil?
+           to_env.override_attributes['applications'] != nil
           from_apps = from_env.override_attributes['applications']
           to_env.override_attributes['applications'].merge!(from_apps) unless from_apps.nil?
         else
@@ -99,7 +100,7 @@ ruby_block 'copy env from prior to current' do
         end
 
         acc_pinnings.each do |cb, pin|
-          Chef::Log.info("Setting version pinning for #{cb} to what we" \
+          Chef::Log.info("Setting version pinning for #{cb} to what we" +
                          " remembered earlier: (#{pin})")
           to_env.cookbook(cb, pin)
         end
@@ -110,7 +111,7 @@ ruby_block 'copy env from prior to current' do
         end
 
         acc_apps.each do |app, version|
-          Chef::Log.info("Setting version for app #{app} to what we" \
+          Chef::Log.info("Setting version for app #{app} to what we" +
                          " remembered earlier: (#{version})")
           to_env.override_attributes['applications'][app] = version
         end
@@ -123,9 +124,9 @@ ruby_block 'copy env from prior to current' do
         begin
           from_env = Chef::Environment.load(from_env_name)
         rescue Net::HTTPServerException => http_e
-          raise http_e unless http_e.response.code == '404'
+          raise http_e unless http_e.response.code == "404"
           Chef::Log.info("Creating Environment #{from_env_name}")
-          from_env = Chef::Environment.new
+          from_env = Chef::Environment.new()
           from_env.name(from_env_name)
           from_env.create
         end
@@ -133,9 +134,9 @@ ruby_block 'copy env from prior to current' do
         begin
           to_env = Chef::Environment.load(to_env_name)
         rescue Net::HTTPServerException => http_e
-          raise http_e unless http_e.response.code == '404'
+          raise http_e unless http_e.response.code == "404"
           Chef::Log.info("Creating Environment #{to_env_name}")
-          to_env = Chef::Environment.new
+          to_env = Chef::Environment.new()
           to_env.name(to_env_name)
           to_env.create
         end
@@ -149,12 +150,11 @@ ruby_block 'copy env from prior to current' do
         node['delivery']['project_cookbooks'].each do |pin|
           from_v = from_env.cookbook_versions[pin]
           to_v = to_env.cookbook_versions[pin]
-
-          next unless from_v
-
-          Chef::Log.info("Promoting #{pin} @ #{from_v} from #{from_env_name}" \
-            " to #{to_env_name} was @ #{to_v}.")
-          to_env.cookbook_versions[pin] = from_v
+          if from_v
+            Chef::Log.info("Promoting #{pin} @ #{from_v} from #{from_env_name}" +
+                           " to #{to_env_name} was @ #{to_v}.")
+            to_env.cookbook_versions[pin] = from_v
+          end
         end
 
         acc_apps = {}
@@ -172,7 +172,8 @@ ruby_block 'copy env from prior to current' do
           from_v = from_env.override_attributes['applications'][app]
           to_v = to_env.override_attributes['applications'][app]
           if from_v
-            Chef::Log.info("Promoting #{app} @ #{from_v} from #{from_env_name} to #{to_env_name} was @ #{to_v}.")
+            Chef::Log.info("Promoting #{app} @ #{from_v} from #{from_env_name}" +
+                           " to #{to_env_name} was @ #{to_v}.")
             to_env.override_attributes['applications'][app] = from_v
           end
         end
@@ -191,9 +192,9 @@ ruby_block 'copy env from prior to current' do
         begin
           from_env = Chef::Environment.load(from_env_name)
         rescue Net::HTTPServerException => http_e
-          raise http_e unless http_e.response.code == '404'
+          raise http_e unless http_e.response.code == "404"
           Chef::Log.info("Creating Environment #{from_env_name}")
-          from_env = Chef::Environment.new
+          from_env = Chef::Environment.new()
           from_env.name(from_env_name)
           from_env.create
         end
@@ -201,9 +202,9 @@ ruby_block 'copy env from prior to current' do
         begin
           to_env = Chef::Environment.load(to_env_name)
         rescue Net::HTTPServerException => http_e
-          raise http_e unless http_e.response.code == '404'
+          raise http_e unless http_e.response.code == "404"
           Chef::Log.info("Creating Environment #{to_env_name}")
-          to_env = Chef::Environment.new
+          to_env = Chef::Environment.new()
           to_env.name(to_env_name)
           to_env.create
         end

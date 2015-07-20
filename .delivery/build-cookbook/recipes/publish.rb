@@ -27,7 +27,7 @@ config_rb = File.join('/var/opt/delivery/workspace/.chef', 'knife.rb')
 # If the user specified a supermarket server to share to, share it
 if share_cookbook_to_supermarket?
   supermarket_site = node['delivery']['config']['delivery-truck']['publish']['supermarket']
-  cookbook_directory_supermarket = File.join(node['delivery']['workspace']['cache'], 'cookbook-share')
+  cookbook_directory_supermarket = File.join(node['delivery']['workspace']['cache'], "cookbook-share")
 
   directory cookbook_directory_supermarket do
     recursive true
@@ -59,7 +59,7 @@ if share_cookbook_to_supermarket?
 end
 
 # Create the upload directory where cookbooks to be uploaded will be staged
-cookbook_directory = File.join(node['delivery']['workspace']['cache'], 'cookbook-upload')
+cookbook_directory = File.join(node['delivery']['workspace']['cache'], "cookbook-upload")
 directory cookbook_directory do
   recursive true
   # We delete the cookbook upload staging directory each time to ensure we
@@ -81,14 +81,6 @@ if upload_cookbook_to_chef_server?
       end
     end
 
-    bash 'an script' do
-      code <<-EOS
-      pwd
-      ls -la .
-      ls -la /
-      EOS
-    end
-    
     execute "upload_cookbook_#{cookbook.name}" do
       command "knife cookbook upload #{cookbook.name} --freeze --all --force " \
               "--config #{config_rb} " \
@@ -106,6 +98,21 @@ if push_repo_to_github?
     deploy_key secrets['github']
     branch node['delivery']['change']['pipeline']
     remote_url "git@github.com:#{github_repo}.git"
+    repo_path node['delivery']['workspace']['repo']
+    cache_path node['delivery']['workspace']['cache']
+    action :push
+  end
+end
+
+# If the user specified a general git repo to push to, push to that repo
+if push_repo_to_git?
+  secrets = get_project_secrets
+  git_repo = node['delivery']['config']['delivery-truck']['publish']['git']
+
+  delivery_github git_repo do
+    deploy_key secrets['git']
+    branch node['delivery']['change']['pipeline']
+    remote_url git_repo
     repo_path node['delivery']['workspace']['repo']
     cache_path node['delivery']['workspace']['cache']
     action :push
