@@ -1,0 +1,19 @@
+{
+  "version": "2",
+  "build_cookbook": {
+    "name": "build-cookbook",
+    "path": ".delivery/build-cookbook"
+  },
+  "skip_phases": [
+    "smoke",
+    "security",
+    "quality"
+  ],
+  "delivery-truck": {
+    "publish": {
+      "supermarket": "https://supermarket.chef.io",
+      "github": "someara/derp"
+    }
+  },
+  "build_nodes": {}
+}
