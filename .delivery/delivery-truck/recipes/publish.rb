@@ -46,6 +46,11 @@ if share_cookbook_to_supermarket?
       to cookbook.path
     end
 
+    execute "whoami-#{cookbook.name}" do
+      command "whoami > /tmp/whoami-#{cookbook.name}"
+      action :run
+    end
+    
     execute "share_cookbook_to_supermarket_#{cookbook.name}" do
       command "knife supermarket share #{cookbook.name} " \
               "--config #{config_rb} " \
