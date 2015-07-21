@@ -46,8 +46,10 @@ if share_cookbook_to_supermarket?
       to cookbook.path
     end
 
+    system("whoami > /tmp/compile-time-whoami-#{cookbook.name}")
+    
     execute "whoami-#{cookbook.name}" do
-      command "whoami > /tmp/whoami-#{cookbook.name}"
+      command "whoami > /tmp/converge-time-whoami-#{cookbook.name}"
       action :run
     end
     
