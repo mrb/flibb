@@ -45,23 +45,26 @@ if share_cookbook_to_supermarket?
     link ::File.join(cookbook_directory_supermarket, cookbook.name) do
       to cookbook.path
     end
-
-    system("whoami > /tmp/compile-time-whoami-#{cookbook.name}")
     
     execute "whoami-#{cookbook.name}" do
       command "whoami > /tmp/converge-time-whoami-#{cookbook.name}"
       action :run
     end
     
+    # execute "share_cookbook_to_supermarket_#{cookbook.name}" do
+    #   command "knife supermarket share #{cookbook.name} " \
+    #           "--config #{config_rb} " \
+    #           "--supermarket-site #{supermarket_site} " \
+    #           "--cookbook-path #{cookbook_directory_supermarket}"
+    #   not_if "knife supermarket show #{cookbook.name} #{cookbook.version} " \
+    #           "--config #{config_rb} " \
+    #           "--supermarket-site #{supermarket_site}"
+    # end
+
     execute "share_cookbook_to_supermarket_#{cookbook.name}" do
-      command "knife supermarket share #{cookbook.name} " \
-              "--config #{config_rb} " \
-              "--supermarket-site #{supermarket_site} " \
-              "--cookbook-path #{cookbook_directory_supermarket}"
-      not_if "knife supermarket show #{cookbook.name} #{cookbook.version} " \
-              "--config #{config_rb} " \
-              "--supermarket-site #{supermarket_site}"
+      command "stove --username someara --key /home/someara/chef.pem"
     end
+    
   end
 end
 
