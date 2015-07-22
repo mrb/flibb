@@ -16,3 +16,23 @@
 #
 
 # SKIP PHASE
+
+# FIXME: delete all this.
+# It's a royal pain to get the output from executes to show up in the
+# build logs, so we're just gonna dump them on the filesystem because
+# fuckit.
+
+directory '/tmp/derp' do
+  action :create
+end
+
+execute "whoami" do
+  command "whoami > /tmp/derp/functional-whoami"
+  action :run
+end
+
+execute "cwd" do
+  command "cwd > /tmp/derp/functional-cwd"
+  action :run
+end
+
