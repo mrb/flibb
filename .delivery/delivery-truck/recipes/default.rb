@@ -44,7 +44,7 @@ end
 execute 'install stove' do
   command '/opt/chef/embedded/bin/gem install stove'
   creates '/opt/chef/embedded/bin/stove'
-  action :install
+  action :run
 end
 
 # FIXME: remove this... for debug
