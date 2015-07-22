@@ -22,6 +22,8 @@
 # [`delivery-truck` cookbook's README](README.md) for
 # additional configuration details.
 
+ENV['PATH'] = "/opt/chef/embedded/bin::#{ENV['PATH']}"
+
 config_rb = File.join('/var/opt/delivery/workspace/.chef', 'knife.rb')
 
 # If the user specified a supermarket server to share to, share it
@@ -61,16 +63,15 @@ if share_cookbook_to_supermarket?
     #           "--supermarket-site #{supermarket_site}"
     # end
 
-    stove_bin = "/var/opt/delivery/workspace/delivery.chef.co/chef/chef-cookbooks/derp/master/build/publish/cache/.chefdk/gem/ruby/2.1.0/bin/stove"
+    # stove_bin = "/var/opt/delivery/workspace/delivery.chef.co/chef/chef-cookbooks/derp/master/build/publish/cache/.chefdk/gem/ruby/2.1.0/bin/stove"
     
-    execute "munge stove_bin" do
-      command "sed -i 's/\\/usr\\/bin\\/env ruby_executable_hooks/\\/opt\\/chef\\/embedded\\/bin\\/ruby/' #{stove_bin}"
-      only_if "grep ruby_executable_hooks #{stove_bin}"
-    end
-    
+    # execute "munge stove_bin" do
+    #   command "sed -i 's/\\/usr\\/bin\\/env ruby_executable_hooks/\\/opt\\/chef\\/embedded\\/bin\\/ruby/' #{stove_bin}"
+    #   only_if "grep ruby_executable_hooks #{stove_bin}"
+    # end    
     execute "share_cookbook_to_supermarket_#{cookbook.name}" do
       command "#{stove_bin} --username someara --key /home/someara/chef.pem"
-    end    
+    end
   end
 end
 
