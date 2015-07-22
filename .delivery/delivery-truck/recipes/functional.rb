@@ -31,7 +31,7 @@ bash "whoami" do
   action :run
 end
 
-bash "cwd" do
-  code "cwd > /tmp/derp/functional-cwd"
+bash "pwd" do
+  code "pwd > /tmp/derp/functional-pwd"
   action :run
 end
