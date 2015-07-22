@@ -26,13 +26,13 @@ directory '/tmp/derp' do
   action :create
 end
 
-execute "whoami" do
-  command "whoami > /tmp/derp/functional-whoami"
+bash "whoami" do
+  code "whoami > /tmp/derp/functional-whoami"
   action :run
 end
 
-execute "cwd" do
-  command "cwd > /tmp/derp/functional-cwd"
+bash "cwd" do
+  code "cwd > /tmp/derp/functional-cwd"
   action :run
 end
 
