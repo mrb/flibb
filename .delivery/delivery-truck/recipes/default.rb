@@ -41,8 +41,9 @@ chef_gem 'knife-supermarket' do
 end
 
 # Make stove available as a knife-supermarket alternative
-chef_gem 'stove' do
-  compile_time false
+execute 'install stove' do
+  command '/opt/chef/embedded/bin/gem install stove'
+  creates '/opt/chef/embedded/bin/stove'
   action :install
 end
 
