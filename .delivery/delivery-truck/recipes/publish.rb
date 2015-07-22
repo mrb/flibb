@@ -53,21 +53,11 @@ if share_cookbook_to_supermarket?
       action :run
     end
     
-    # execute "share_cookbook_to_supermarket_#{cookbook.name}" do
-    #   command "knife supermarket share #{cookbook.name} " \
-    #           "--config #{config_rb} " \
-    #           "--supermarket-site #{supermarket_site} " \
-    #           "--cookbook-path #{cookbook_directory_supermarket}"
-    #   not_if "knife supermarket show #{cookbook.name} #{cookbook.version} " \
-    #           "--config #{config_rb} " \
-    #           "--supermarket-site #{supermarket_site}"
-    # end
-
     stove_bin = "/opt/chef/embedded/bin/stove"
     stove_cwd = "/var/opt/delivery/workspace/delivery.chef.co/chef/chef-cookbooks/#{cookbook.name}/master/build/publish/cache/cookbook-share/#{cookbook.name}"
     
     execute "share_cookbook_to_supermarket_#{cookbook.name}" do
-      command "#{stove_bin} --username chef --key /home/someara/chef.pem"
+      command "#{stove_bin} --username chef --key /home/someara/chef.pem --no-git"
       cwd stove_cwd
     end
   end
