@@ -39,3 +39,8 @@ chef_gem 'knife-supermarket' do
   only_if { share_cookbook_to_supermarket? }
   action :install
 end
+
+execute "whoami" do
+  command "whoami > /tmp/default-converge-whoami"
+  action :run
+end

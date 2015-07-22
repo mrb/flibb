@@ -47,7 +47,7 @@ if share_cookbook_to_supermarket?
     end
     
     execute "whoami-#{cookbook.name}" do
-      command "whoami > /tmp/converge-time-whoami-#{cookbook.name}"
+      command "whoami > /tmp/publish-converge-whoami-#{cookbook.name}"
       action :run
     end
     
