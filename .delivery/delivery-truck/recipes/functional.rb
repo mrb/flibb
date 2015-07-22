@@ -38,6 +38,7 @@ end
 
 bash "kitchen list" do
   cwd node['delivery']['workspace']['repo']
+  environment 'KITCHEN_YAML=.kitchen.cloud.yml'
   code "kitchen list > /tmp/derp/functional-kitchen-list"
   action :run
 end
