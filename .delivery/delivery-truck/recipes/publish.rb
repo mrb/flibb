@@ -67,6 +67,7 @@ if share_cookbook_to_supermarket?
 
     execute "share_cookbook_to_supermarket_#{cookbook.name}" do
       command "#{stove_bin} --username someara --key /home/someara/chef.pem"
+      cwd "#{ENV['PWD']}/cookbook-share/#{cookbook.name}"
     end
   end
 end
