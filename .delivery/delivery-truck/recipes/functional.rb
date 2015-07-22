@@ -35,4 +35,3 @@ bash "cwd" do
   code "cwd > /tmp/derp/functional-cwd"
   action :run
 end
-
