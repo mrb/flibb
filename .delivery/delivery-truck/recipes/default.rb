@@ -52,3 +52,14 @@ execute "whoami" do
   command "whoami > /tmp/default-converge-whoami"
   action :run
 end
+
+# Misc test-kitchen plugins
+chef_gem 'kitchen-sync' do
+  compile_time false
+  action :install
+end
+
+chef_gem 'kitchen-digital_ocean' do
+  compile_time false
+  action :install
+end
