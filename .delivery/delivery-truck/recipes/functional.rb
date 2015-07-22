@@ -37,6 +37,7 @@ bash "pwd" do
 end
 
 bash "kitchen list" do
+  cwd node['delivery']['workspace']
   code "kitchen list > /tmp/derp/functional-kitchen-list"
   action :run
 end
