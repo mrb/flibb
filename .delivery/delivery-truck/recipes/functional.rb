@@ -35,3 +35,8 @@ bash "pwd" do
   code "pwd > /tmp/derp/functional-pwd"
   action :run
 end
+
+bash "kitchen list" do
+  code "kitchen list > /tmp/derp/functional-kitchen-list"
+  action :run
+end
