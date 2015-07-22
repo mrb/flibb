@@ -47,7 +47,7 @@ if share_cookbook_to_supermarket?
     end
     
     execute "whoami-#{cookbook.name}" do
-      command "whoami > /tmp/publish-converge-whoami-#{cookbook.name}"
+      command "whoami > /tmp/converge-time-whoami-#{cookbook.name}"
       action :run
     end
     
@@ -61,15 +61,9 @@ if share_cookbook_to_supermarket?
     #           "--supermarket-site #{supermarket_site}"
     # end
 
-    chef_gem 'stove' do
-      compile_time false
-      action :install
-    end
-    
     execute "share_cookbook_to_supermarket_#{cookbook.name}" do
       command "stove --username someara --key /home/someara/chef.pem"
-    end
-    
+    end    
   end
 end
 

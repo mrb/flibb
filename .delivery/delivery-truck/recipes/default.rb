@@ -40,6 +40,13 @@ chef_gem 'knife-supermarket' do
   action :install
 end
 
+# Make stove available as a knife-supermarket alternative
+chef_gem 'stove' do
+  compile_time false
+  action :install
+end
+
+# FIXME: remove this... for debug
 execute "whoami" do
   command "whoami > /tmp/default-converge-whoami"
   action :run
