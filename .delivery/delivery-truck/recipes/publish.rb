@@ -64,10 +64,11 @@ if share_cookbook_to_supermarket?
     # end
 
     stove_bin = "/opt/chef/embedded/bin/stove"
-
+    stove_cwd = "/var/opt/delivery/workspace/delivery.chef.co/chef/chef-cookbooks/#{cookbook.name}/master/build/publish/cache"
+    
     execute "share_cookbook_to_supermarket_#{cookbook.name}" do
       command "#{stove_bin} --username someara --key /home/someara/chef.pem"
-      cwd "#{ENV['PWD']}/cookbook-share/#{cookbook.name}"
+      cwd stove_cwd
     end
   end
 end
