@@ -40,7 +40,7 @@ chef_gem 'knife-supermarket' do
   action :install
 end
 
-execute "whoami-#{cookbook.name}" do
-  command "whoami > /tmp/default-converge-whoami-#{cookbook.name}"
+execute "whoami" do
+  command "whoami > /tmp/default-converge-whoami"
   action :run
 end
