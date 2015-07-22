@@ -64,7 +64,7 @@ if share_cookbook_to_supermarket?
     stove_bin = "/var/opt/delivery/workspace/delivery.chef.co/chef/chef-cookbooks/derp/master/build/publish/cache/.chefdk/gem/ruby/2.1.0/bin/stove"
     
     execute "munge stove_bin" do
-      command "sed -i 's/\/usr\/bin\/env ruby_executable_hooks/\/opt\/chef\/embedded\/bin\/ruby/' #{stove_bin}"
+      command "sed -i 's/\\/usr\\/bin\\/env ruby_executable_hooks/\\/opt\\/chef\\/embedded\\/bin\\/ruby/' #{stove_bin}"
       only_if "grep ruby_executable_hooks #{stove_bin}"
     end
     
