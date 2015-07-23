@@ -73,8 +73,11 @@ ruby_block "kitchen test" do
     code =<<-EOF
     . /home/someara/secure_env_vars.sh ; time kitchen test -c
     EOF
-    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
-    puts "\n#{o.stdout}"
+    c = Mixlib::ShellOut.new(code, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })    
+    puts "\n"
+    c.run_command do |l|
+      puts l
+    end
   end
   action :run
 end
