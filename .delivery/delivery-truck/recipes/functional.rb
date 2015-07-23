@@ -58,20 +58,7 @@ ruby_block "kitchen list" do
   block do
     extend Chef::Mixin::ShellOut
     code =<<-EOF
-    . /home/someara/secure_env_vars.sh ; time kitchen list
-    EOF
-    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
-    puts "\n#{o.stdout}"
-  end
-  action :run
-end
-
-# list for debugging
-ruby_block "kitchen list again" do
-  block do
-    extend Chef::Mixin::ShellOut
-    code =<<-EOF
-    . /home/someara/secure_env_vars.sh ; time kitchen list
+    . /home/someara/secure_env_vars.sh ;  time kitchen list
     EOF
     o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
     puts "\n#{o.stdout}"
