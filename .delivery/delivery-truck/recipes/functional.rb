@@ -44,7 +44,7 @@ ruby_block "kitchen list" do
     kitchen list | tee /tmp/derp/functional-kitchen-list
     EOF
     o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
-    puts "\no.stdout: #{o.stdout}"
+    puts "\n::#{o.stdout}::"
   end
   action :run
 end
