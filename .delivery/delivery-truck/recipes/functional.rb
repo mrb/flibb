@@ -42,7 +42,7 @@ ruby_block "kitchen list" do
     code =<<-EOF
 whoami
 source /home/someara/secure_env_vars.sh
-kitchen list | tee /tmp/derp/functional-kitchen-list
+time kitchen list
     EOF
     puts "\n::#{code}::"
     o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
