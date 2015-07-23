@@ -36,6 +36,7 @@ bash "pwd" do
   action :run
 end
 
+# list for debugging
 ruby_block "kitchen list" do
   block do
     extend Chef::Mixin::ShellOut
@@ -48,20 +49,28 @@ ruby_block "kitchen list" do
   action :run
 end
 
-bash "kitchen test" do
-  cwd node['delivery']['workspace']['repo']
-  code <<-EOF
-  source /home/someara/secure_env_vars.sh
-  time kitchen test -c | tee /tmp/derp/functional-kitchen-test
-  EOF
+# test concurrently
+ruby_block "kitchen test" do
+  block do
+    extend Chef::Mixin::ShellOut
+    code =<<-EOF
+    . /home/someara/secure_env_vars.sh ; time kitchen test -c
+    EOF
+    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
+    puts "\n#{o.stdout}"
+  end
   action :run
 end
 
-bash "kitchen destroy" do
-  cwd node['delivery']['workspace']['repo']
-  code <<-EOF
-  source /home/someara/secure_env_vars.sh
-  time kitchen destroy -c | tee /tmp/derp/functional-kitchen-destroy
-  EOF
+# make sure we're cleaned up
+ruby_block "kitchen test" do
+  block do
+    extend Chef::Mixin::ShellOut
+    code =<<-EOF
+    . /home/someara/secure_env_vars.sh ; time kitchen destroy -c
+    EOF
+    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
+    puts "\n#{o.stdout}"
+  end
   action :run
 end
