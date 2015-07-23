@@ -40,9 +40,9 @@ ruby_block "kitchen list" do
   block do
     extend Chef::Mixin::ShellOut
     code =<<-EOF
-whoami
-source /home/someara/secure_env_vars.sh
-time kitchen list
+    whoami ; 
+    . /home/someara/secure_env_vars.sh ;
+    time kitchen list
     EOF
     puts "\n::#{code}::"
     o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
