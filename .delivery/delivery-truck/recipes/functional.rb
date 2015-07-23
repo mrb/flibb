@@ -40,8 +40,6 @@ ruby_block "kitchen list" do
   block do
     extend Chef::Mixin::ShellOut
     code =<<-EOF
-    whoami ; 
-    . /home/someara/secure_env_vars.sh ;
     time kitchen list
     EOF
     puts "\n::#{code}::"
