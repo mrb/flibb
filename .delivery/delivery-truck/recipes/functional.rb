@@ -60,8 +60,8 @@ ruby_block "kitchen list" do
     code =<<-EOF
     . /home/someara/secure_env_vars.sh ; time kitchen list
     EOF
-    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
-    puts "\n#{o.stdout}"
+    c = Mixlib::ShellOut.new(code, live_stream: STDOUT, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
+    c.run_command
   end
   action :run
 end
@@ -73,11 +73,8 @@ ruby_block "kitchen test" do
     code =<<-EOF
     . /home/someara/secure_env_vars.sh ; time kitchen test -c
     EOF
-    c = Mixlib::ShellOut.new(code, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })    
-    puts "\n"
-    c.run_command do |l|
-      puts l
-    end
+    c = Mixlib::ShellOut.new(code, live_stream: STDOUT, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
+    c.run_command
   end
   action :run
 end
@@ -89,8 +86,8 @@ ruby_block "kitchen destroy" do
     code =<<-EOF
     . /home/someara/secure_env_vars.sh ; time kitchen destroy -c
     EOF
-    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
-    puts "\n#{o.stdout}"
+    c = Mixlib::ShellOut.new(code, live_stream: STDOUT, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
+    c.run_command
   end
   action :run
 end
