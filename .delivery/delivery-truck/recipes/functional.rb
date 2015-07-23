@@ -36,6 +36,17 @@ bash "pwd" do
   action :run
 end
 
+# Misc test-kitchen plugins
+chef_gem 'kitchen-sync' do
+  compile_time false
+  action :install
+end
+
+chef_gem 'kitchen-digital_ocean' do
+  compile_time false
+  action :install
+end
+
 # list for debugging
 ruby_block "kitchen list" do
   block do
