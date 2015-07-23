@@ -36,8 +36,8 @@ bash "pwd" do
   action :run
 end
 
-ruby_block "kitchen list" do 
-  include Chef::Mixin::ShellOut
+ruby_block "kitchen list" do
+  extend Chef::Mixin::ShellOut
   code <<-EOF
   source /home/someara/secure_env_vars.sh
   kitchen list | tee /tmp/derp/functional-kitchen-list
