@@ -14,7 +14,7 @@ provisioner:
 
 platforms:
 - name: centos-7.0
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 2gb
     image: centos-7-0-x64
@@ -23,7 +23,7 @@ platforms:
     ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
 
 - name: ubuntu-15.04
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 2gb
     image: ubuntu-15-04-x64
