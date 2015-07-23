@@ -59,7 +59,7 @@ chef_gem 'kitchen-sync' do
   action :install
 end
 
-chef_gem 'kitchen-digital_ocean' do
+chef_gem 'kitchen-digitalocean' do
   compile_time false
   action :install
 end
