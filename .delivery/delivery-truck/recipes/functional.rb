@@ -43,8 +43,8 @@ ruby_block "kitchen list" do
     source /home/someara/secure_env_vars.sh
     kitchen list | tee /tmp/derp/functional-kitchen-list
     EOF
-    o = shell_out(code, cwd: node['delivery']['workspace']['repo'])
-    puts "o.stdout: #{o.stdout}"
+    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
+    puts "\no.stdout: #{o.stdout}"
   end
   action :run
 end
