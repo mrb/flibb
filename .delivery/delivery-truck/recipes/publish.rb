@@ -55,10 +55,10 @@ if share_cookbook_to_supermarket?
     
     stove_bin = "/opt/chef/embedded/bin/stove"
     
-    execute "share_cookbook_to_supermarket_#{cookbook.name}" do
-      command "#{stove_bin} --username chef --key /home/someara/chef.pem --no-git"
-      cwd node['delivery']['workspace']['repo']
-    end
+    # execute "share_cookbook_to_supermarket_#{cookbook.name}" do
+    #   command "#{stove_bin} --username chef --key /home/someara/chef.pem --no-git"
+    #   cwd node['delivery']['workspace']['repo']
+    # end
   end
 end
 
