@@ -40,7 +40,25 @@ bash "kitchen list" do
   cwd node['delivery']['workspace']['repo']
   code <<-EOF
   source /home/someara/secure_env_vars.sh
-  kitchen list > /tmp/derp/functional-kitchen-list
+  kitchen list | tee /tmp/derp/functional-kitchen-list
+  EOF
+  action :run
+end
+
+bash "kitchen test" do
+  cwd node['delivery']['workspace']['repo']
+  code <<-EOF
+  source /home/someara/secure_env_vars.sh
+  time kitchen test -c | tee /tmp/derp/functional-kitchen-test
+  EOF
+  action :run
+end
+
+bash "kitchen destroy" do
+  cwd node['delivery']['workspace']['repo']
+  code <<-EOF
+  source /home/someara/secure_env_vars.sh
+  time kitchen destroy -c | tee /tmp/derp/functional-kitchen-destroy
   EOF
   action :run
 end
