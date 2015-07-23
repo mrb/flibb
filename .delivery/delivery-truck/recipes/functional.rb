@@ -55,6 +55,19 @@ ruby_block 'print delivery workspace repo' do
   end
 end
 
+# kitchen diagnose
+ruby_block "kitchen diagnose" do
+  block do
+    extend Chef::Mixin::ShellOut
+    code =<<-EOF
+    . /home/someara/secure_env_vars.sh ; time kitchen diagnose
+    EOF
+    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
+    puts "\n#{o.stdout}"
+  end
+  action :run
+end
+
 # test concurrently
 ruby_block "kitchen test" do
   block do
