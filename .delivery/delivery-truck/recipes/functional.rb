@@ -38,12 +38,14 @@ end
 
 ruby_block "kitchen list" do
   extend Chef::Mixin::ShellOut
-  code <<-EOF
-  source /home/someara/secure_env_vars.sh
-  kitchen list | tee /tmp/derp/functional-kitchen-list
-  EOF
-  o = shell_out(code, cwd: node['delivery']['workspace']['repo'])
-  puts o
+  block do
+    code <<-EOF
+    source /home/someara/secure_env_vars.sh
+    kitchen list | tee /tmp/derp/functional-kitchen-list
+    EOF
+    o = shell_out(code, cwd: node['delivery']['workspace']['repo'])
+    puts o
+  end
   action :run
 end
 
