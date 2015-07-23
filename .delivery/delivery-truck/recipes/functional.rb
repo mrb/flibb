@@ -49,6 +49,12 @@ ruby_block "kitchen list" do
   action :run
 end
 
+ruby_block 'print delivery workspace repo' do
+  block do
+    puts "\n#{node['delivery']['workspace']['repo']}"
+  end
+end
+
 # test concurrently
 ruby_block "kitchen test" do
   block do
