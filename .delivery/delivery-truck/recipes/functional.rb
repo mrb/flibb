@@ -43,7 +43,7 @@ ruby_block "kitchen list" do
     . /home/someara/secure_env_vars.sh ; time kitchen list
     EOF
     o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
-    puts o.stdout
+    puts "\n#{o.stdout}"
   end
   action :run
 end
