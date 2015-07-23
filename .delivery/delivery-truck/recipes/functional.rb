@@ -36,12 +36,14 @@ bash "pwd" do
   action :run
 end
 
-bash "kitchen list" do
-  cwd node['delivery']['workspace']['repo']
+ruby_block "kitchen list" do 
+  include Chef::Mixin::ShellOut
   code <<-EOF
   source /home/someara/secure_env_vars.sh
   kitchen list | tee /tmp/derp/functional-kitchen-list
   EOF
+  o = shell_out(code, cwd: node['delivery']['workspace']['repo'])
+  puts o
   action :run
 end
 
