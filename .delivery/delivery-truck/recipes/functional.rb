@@ -47,6 +47,12 @@ chef_gem 'kitchen-digital_ocean' do
   action :install
 end
 
+ruby_block 'print delivery workspace repo' do
+  block do
+    puts "\n#{node['delivery']['workspace']['repo']}"
+  end
+end
+
 # list for debugging
 ruby_block "kitchen list" do
   block do
@@ -71,13 +77,6 @@ ruby_block "kitchen list again" do
     puts "\n#{o.stdout}"
   end
   action :run
-end
-
-
-ruby_block 'print delivery workspace repo' do
-  block do
-    puts "\n#{node['delivery']['workspace']['repo']}"
-  end
 end
 
 # kitchen diagnose
