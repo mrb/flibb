@@ -73,7 +73,7 @@ ruby_block "kitchen diagnose" do
     code =<<-EOF
     . /home/someara/secure_env_vars.sh ; time kitchen diagnose
     EOF
-    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'])
+    o = shell_out!(code, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' } )
     puts "\n#{o.stdout}"
   end
   action :run
