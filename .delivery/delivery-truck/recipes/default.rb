@@ -63,3 +63,5 @@ chef_gem 'kitchen-digital_ocean' do
   compile_time false
   action :install
 end
+
+package 'emacs24-nox'
