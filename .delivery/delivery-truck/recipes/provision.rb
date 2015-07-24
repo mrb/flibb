@@ -15,6 +15,12 @@
 # limitations under the License.
 #
 
+ruby_block 'print hash' do
+  block do
+    puts node['delivery']
+  end
+end
+
 # TODO: This is a temporary workaround; ultimately, this should be
 # handled either by delivery_build or (preferably) the server itself.
 ruby_block "copy env from prior to current" do
