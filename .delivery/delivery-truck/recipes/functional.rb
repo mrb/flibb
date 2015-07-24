@@ -15,27 +15,6 @@
 # limitations under the License.
 #
 
-# SKIP PHASE
-
-# FIXME: delete all this.
-# It's a royal pain to get the output from executes to show up in the
-# build logs, so we're just gonna dump them on the filesystem because
-# fuckit.
-
-directory '/tmp/derp' do
-  action :create
-end
-
-bash "whoami" do
-  code "whoami > /tmp/derp/functional-whoami"
-  action :run
-end
-
-bash "pwd" do
-  code "pwd > /tmp/derp/functional-pwd"
-  action :run
-end
-
 # Misc test-kitchen plugins
 chef_gem 'kitchen-sync' do
   compile_time false
@@ -47,31 +26,14 @@ chef_gem 'kitchen-digital_ocean' do
   action :install
 end
 
-ruby_block 'print delivery workspace repo' do
-  block do
-    puts "\n#{node['delivery']['workspace']['repo']}"
-  end
-end
-
-# list for debugging
-ruby_block "kitchen list" do
-  block do
-    extend Chef::Mixin::ShellOut
-    code =<<-EOF
-    . /home/someara/secure_env_vars.sh ; time kitchen list
-    EOF
-    c = Mixlib::ShellOut.new(code, live_stream: STDOUT, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
-    c.run_command
-  end
-  action :run
-end
-
 # test concurrently
 ruby_block "kitchen test" do
   block do
     extend Chef::Mixin::ShellOut
     code =<<-EOF
-    . /home/someara/secure_env_vars.sh ; time kitchen test -c
+    . /home/someara/secure_env_vars.sh ; 
+    time kitchen test -c ;
+    time kitchen destroy -c ;
     EOF
     c = Mixlib::ShellOut.new(code, live_stream: STDOUT, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
     c.run_command
@@ -79,15 +41,4 @@ ruby_block "kitchen test" do
   action :run
 end
 
-# make sure we're cleaned up
-ruby_block "kitchen destroy" do
-  block do
-    extend Chef::Mixin::ShellOut
-    code =<<-EOF
-    . /home/someara/secure_env_vars.sh ; time kitchen destroy -c
-    EOF
-    c = Mixlib::ShellOut.new(code, live_stream: STDOUT, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
-    c.run_command
-  end
-  action :run
-end
+include_recipe "delivery-truck::publish"
