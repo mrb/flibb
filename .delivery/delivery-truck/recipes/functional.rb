@@ -15,30 +15,34 @@
 # limitations under the License.
 #
 
-# Misc test-kitchen plugins
-chef_gem 'kitchen-sync' do
-  compile_time false
-  action :install
+log 'running test-kitchen' do
+  action :write
 end
 
-chef_gem 'kitchen-digital_ocean' do
-  compile_time false
-  action :install
-end
+# # Misc test-kitchen plugins
+# chef_gem 'kitchen-sync' do
+#   compile_time false
+#   action :install
+# end
 
-# test concurrently
-ruby_block "kitchen test" do
-  block do
-    extend Chef::Mixin::ShellOut
-    code =<<-EOF
-    . /home/someara/secure_env_vars.sh ; 
-    time kitchen test -c ;
-    time kitchen destroy -c ;
-    EOF
-    c = Mixlib::ShellOut.new(code, live_stream: STDOUT, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
-    c.run_command
-  end
-  action :run
-end
+# chef_gem 'kitchen-digital_ocean' do
+#   compile_time false
+#   action :install
+# end
+
+# # test concurrently
+# ruby_block "kitchen test" do
+#   block do
+#     extend Chef::Mixin::ShellOut
+#     code =<<-EOF
+#     . /home/someara/secure_env_vars.sh ; 
+#     time kitchen test -c ;
+#     time kitchen destroy -c ;
+#     EOF
+#     c = Mixlib::ShellOut.new(code, live_stream: STDOUT, cwd: node['delivery']['workspace']['repo'], env: { 'USER' => 'dbuild' })
+#     c.run_command
+#   end
+#   action :run
+# end
 
 include_recipe "delivery-truck::publish"

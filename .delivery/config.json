@@ -5,6 +5,8 @@
     "path": ".delivery/delivery-truck"
   },
   "skip_phases": [
+    "provision",
+    "deploy",
     "smoke",
     "security",
     "quality"
