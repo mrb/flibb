@@ -100,33 +100,33 @@ if node['delivery']['change']['stage']['delivered']
   #   end
   # end
 
-  # # If the user specified a github repo to push to, push to that repo
-  # if push_repo_to_github?
-  #   secrets = get_project_secrets
-  #   github_repo = node['delivery']['config']['delivery-truck']['publish']['github']
+  # If the user specified a github repo to push to, push to that repo
+  if push_repo_to_github?
+    secrets = get_project_secrets
+    github_repo = node['delivery']['config']['delivery-truck']['publish']['github']
 
-  #   delivery_github github_repo do
-  #     deploy_key secrets['github']
-  #     branch node['delivery']['change']['pipeline']
-  #     remote_url "git@github.com:#{github_repo}.git"
-  #     repo_path node['delivery']['workspace']['repo']
-  #     cache_path node['delivery']['workspace']['cache']
-  #     action :push
-  #   end
-  # end
+    delivery_github github_repo do
+      deploy_key secrets['github']
+      branch node['delivery']['change']['pipeline']
+      remote_url "git@github.com:#{github_repo}.git"
+      repo_path node['delivery']['workspace']['repo']
+      cache_path node['delivery']['workspace']['cache']
+      action :push
+    end
+  end
 
-  # # If the user specified a general git repo to push to, push to that repo
-  # if push_repo_to_git?
-  #   secrets = get_project_secrets
-  #   git_repo = node['delivery']['config']['delivery-truck']['publish']['git']
+  # If the user specified a general git repo to push to, push to that repo
+  if push_repo_to_git?
+    secrets = get_project_secrets
+    git_repo = node['delivery']['config']['delivery-truck']['publish']['git']
 
-  #   delivery_github git_repo do
-  #     deploy_key secrets['git']
-  #     branch node['delivery']['change']['pipeline']
-  #     remote_url git_repo
-  #     repo_path node['delivery']['workspace']['repo']
-  #     cache_path node['delivery']['workspace']['cache']
-  #     action :push
-  #   end
-  # end
+    delivery_github git_repo do
+      deploy_key secrets['git']
+      branch node['delivery']['change']['pipeline']
+      remote_url git_repo
+      repo_path node['delivery']['workspace']['repo']
+      cache_path node['delivery']['workspace']['cache']
+      action :push
+    end
+  end
 end
