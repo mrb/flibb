@@ -19,49 +19,53 @@ ENV['PATH'] = "/opt/chefdk/bin:/opt/chefdk/embedded/bin:#{ENV['PATH']}"
 
 #######################################################################
 
-# Temporary workaround until we reliably use a newer version of ChefDK
-chef_gem 'chefspec' do
-  compile_time false
-  version '4.1.1'
-end
+# # Temporary workaround until we reliably use a newer version of ChefDK
+# chef_gem 'chefspec' do
+#   compile_time false
+#   version '4.1.1'
+# end
 
-# Temporary workaround until chefdk installs chef-sugar.
-chef_gem 'chef-sugar' do
-  compile_time false
-  # We always ride the latest version of chef-sugar. This could prove dangerous
-  # but it more closely matches the CD philosophy which Delivery implements!
-  action :upgrade
-end
+# # Temporary workaround until chefdk installs chef-sugar.
+# chef_gem 'chef-sugar' do
+#   compile_time false
+#   # We always ride the latest version of chef-sugar. This could prove dangerous
+#   # but it more closely matches the CD philosophy which Delivery implements!
+#   action :upgrade
+# end
 
-# If the user specified a supermarket server lets install the knife plugin
-chef_gem 'knife-supermarket' do
-  compile_time false
-  only_if { share_cookbook_to_supermarket? }
-  action :install
-end
+# # If the user specified a supermarket server lets install the knife plugin
+# chef_gem 'knife-supermarket' do
+#   compile_time false
+#   only_if { share_cookbook_to_supermarket? }
+#   action :install
+# end
 
-# Make stove available as a knife-supermarket alternative
-execute 'install stove' do
-  command '/opt/chef/embedded/bin/gem install stove'
-  creates '/opt/chef/embedded/bin/stove'
-  action :run
-end
+# # Make stove available as a knife-supermarket alternative
+# execute 'install stove' do
+#   command '/opt/chef/embedded/bin/gem install stove'
+#   creates '/opt/chef/embedded/bin/stove'
+#   action :run
+# end
 
-# FIXME: remove this... for debug
-execute "whoami" do
-  command "whoami > /tmp/default-converge-whoami"
-  action :run
-end
+# # FIXME: remove this... for debug
+# execute "whoami" do
+#   command "whoami > /tmp/default-converge-whoami"
+#   action :run
+# end
 
-# Misc test-kitchen plugins
-chef_gem 'kitchen-sync' do
-  compile_time false
-  action :install
-end
+# # Misc test-kitchen plugins
+# chef_gem 'kitchen-sync' do
+#   compile_time false
+#   action :install
+# end
 
-chef_gem 'kitchen-digitalocean' do
-  compile_time false
-  action :install
-end
+# chef_gem 'kitchen-digitalocean' do
+#   compile_time false
+#   action :install
+# end
 
-package 'emacs24-nox'
+# package 'emacs24-nox'
+
+docker_service 'default' do
+  action [:create, :start]
+end
