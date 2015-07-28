@@ -69,3 +69,7 @@ ENV['PATH'] = "/opt/chefdk/bin:/opt/chefdk/embedded/bin:#{ENV['PATH']}"
 docker_service 'default' do
   action [:create, :start]
 end
+
+docker_image 'someara/delivery-builder' do
+  action :pull_if_missing
+end
