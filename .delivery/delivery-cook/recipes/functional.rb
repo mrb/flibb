@@ -45,4 +45,4 @@ end
 #   action :run
 # end
 
-include_recipe "delivery-truck::publish"
+include_recipe "delivery-cook::publish"
