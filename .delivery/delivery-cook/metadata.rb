@@ -11,3 +11,4 @@ supports 'redhat', '>= 6.5'
 supports 'centos', '>= 6.5'
 
 depends 'docker'
+depends 'delivery-sugar'
