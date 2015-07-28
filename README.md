@@ -7,8 +7,6 @@ should run quickly.
 
 Feel free to add things to it.
 
-Ping!
-
 License & Authors
 -----------------
 - Author:: Sean OMeara <sean@chef.io>
