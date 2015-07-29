@@ -30,7 +30,7 @@ end
 #   action :install
 # end
 
-# # test concurrently
+# test concurrently
 # ruby_block "kitchen test" do
 #   block do
 #     extend Chef::Mixin::ShellOut
