@@ -7,9 +7,7 @@
   "skip_phases": [
     "provision",
     "deploy",
-    "smoke",
-    "security",
-    "quality"
+    "security"
   ],
   "delivery-truck": {
     "publish": {
